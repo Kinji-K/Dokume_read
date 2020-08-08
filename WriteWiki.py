@@ -100,6 +100,7 @@ def WriteWiki():
         read_string = ""
         temp_datas.clear()
 
+
         # 既にあるページのEOD(End Of Data)マーク以降を「temp_datas」に保存しておく
         try:
             with open(filepath + "/" + urllib.parse.quote(pagename) + ".txt", mode="r") as f2:
@@ -153,10 +154,13 @@ def WriteWiki():
             for temp_data in temp_datas:
                 f2.write(temp_data + "\n\n")
 
+        os.chmod(filepath + "/" + urllib.parse.quote(pagename) + ".txt",0o777)
+
         # 本情報ページにリンクを追記
         f.write("[[本情報:" + pagename + "]]\n\n" )
 
     f.close()
+    os.chmod(filepath + ".txt",0o777)
 
 if __name__ == "__main__":
     WriteWiki()
