@@ -155,6 +155,16 @@ def DokumeRead():
         # Bookcasesの10個の要素になるように不足分を空白で埋める
         dokume_book.fill_bookcase()
 
+        # DB内に既にその本のデータがあれば、既存のデータを削除
+        db_bookinfo = "DELETE FROM bookinfo WHERE id = ?"
+        c.execute(db_bookinfo,(bookid,))
+
+        db_read_data = "DELETE FROM read_data WHERE id = ?"
+        c.execute(db_read_data,(bookid,))
+
+        db_bookcase = "DELETE FROM bookcase WHERE id = ?"
+        c.execute(db_bookcase,(bookid,))
+
         # 各種テーブルにデータを挿入
         db_bookinfo = "INSERT INTO bookinfo VALUES (?,?,?,?)"
         c.execute(db_bookinfo,(bookid,dokume_book.booktitle,dokume_book.bookauthor,dokume_book.read_number))
